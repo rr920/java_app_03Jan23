@@ -26,8 +26,7 @@ pipeline{
 
             steps{
                 script{
-                    mvnIntegrationTest()
-                }
+                    sh 'mvn verify -DskipUnitTests'
             }
         }
     }
