@@ -27,6 +27,7 @@ pipeline{
             steps{
                 script{
                     'mvn verify -DskipUnitTests'
+                }    
             }
         }
     }
