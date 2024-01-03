@@ -41,9 +41,9 @@ pipeline{
         when {expression { params.action == 'create'}}
             steps{
                 script{
-                withSonarQubeEnv(credentialsId: 'sonarqube-api') {    
-                    'mvn clean package sonar:sonar'
-                }
+                    def SonarQubecredentialsId = 'sonarqube-api'
+                    staticCodeAnalysis(SonarQubecredentialsId)
+                
             
                 }    
             }
