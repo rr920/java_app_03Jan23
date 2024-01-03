@@ -53,8 +53,8 @@ pipeline{
         when {expression { params.action == 'create'}}
             steps{
                 script{
-                waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-api'   
-                    'mvn clean package sonar:sonar'
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonarqube-api'   
+                   
             
                 }    
             }
