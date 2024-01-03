@@ -4,9 +4,15 @@ pipeline{
 
     agent any
 
-    stages{
-        stage('Git Checkout'){
+    parameters{
+    
+        choice(name: 'action': choices: 'create\ndelete', description: 'Choice create/Destroy')
+    }
 
+    stages{
+        
+        stage('Git Checkout'){
+        when {expression { params.action == 'create'}}
             steps{
                 script{
                     git 'https://github.com/rr920/java_app_02Jan23.git'
@@ -15,7 +21,7 @@ pipeline{
         }
 
         stage('Unit Test Maven'){
-
+        when {expression { params.action == 'create'}}
             steps{
                 script{
                     'mvn test'
@@ -23,10 +29,22 @@ pipeline{
             }
         }
         stage('Maven Integration Test'){
-
+        when {expression { params.action == 'create'}}
             steps{
                 script{
                     'mvn verify -DskipUnitTests'
+                }    
+            }
+        }
+
+        stage('Static code analysis: Sonarqube'){
+        when {expression { params.action == 'create'}}
+            steps{
+                script{
+                withSonarQubeEnv(credentialsId: 'sonarqube-api') {    
+                    'mvn clean package sonar:sonar'
+                }
+            
                 }    
             }
         }
